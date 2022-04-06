@@ -1,0 +1,2 @@
+MODULES=pkgupgrade
+PKGUPGRADE_PRE_INSTALL_PKGS="cmake gcc-arm-none-eabi build-essential"
