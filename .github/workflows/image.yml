@@ -1,0 +1,37 @@
+name: "Build image"
+
+# Controls when the workflow will run
+on:
+  push:
+    branches: [ build ]
+#  pull_request:
+#    branches: [ build ]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: "Build"
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v3
+
+      - name: "⬇ Download Raspbian"
+        id: octopi_download
+        run: |
+          mkdir build
+          cd build
+          wget https://downloads.raspberrypi.org/raspios_lite_armhf/images/raspios_lite_armhf-2022-01-28/2022-01-28-raspios-bullseye-armhf-lite.zip -O raspbian.zip
+
+          unzip raspbian.zip
+          rm raspbian.zip
+          IMAGE=$(ls *.img | head -n 1)
+          mv $IMAGE input.img
+          
+      - name: "🏗 Run CustoPiZer"
+        uses: OctoPrint/CustoPiZer@main
+        with:
+          workspace: "${{github.workspace}}/build"
+          scripts: "${{github.workspace}}/scripts"
