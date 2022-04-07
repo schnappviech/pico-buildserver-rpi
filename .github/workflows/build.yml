@@ -1,4 +1,4 @@
-name: Build Image
+name: Build Image base
 
 on:
   workflow_dispatch:
@@ -26,6 +26,7 @@ jobs:
 
     - name: Download Raspbian Image
       run: |
+        mkdir -p repository/src/image
         cd repository/src/image
         wget -c --trust-server-names 'https://downloads.raspberrypi.org/raspios_lite_armhf_latest'
 
